@@ -1,0 +1,15 @@
+{
+    "name": "species/html-form",
+    "description": "HTML form building and handling.",
+    "type": "library",
+
+    "autoload": {
+        "psr-4": {
+            "Species\\HtmlForm\\": ["src/", "tests/"]
+        }
+    },
+
+    "require": {
+        "php": "^7.1"
+    }
+}

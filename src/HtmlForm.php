@@ -7,7 +7,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Form interface.
  */
-interface Form
+interface HtmlForm
 {
 
     /**

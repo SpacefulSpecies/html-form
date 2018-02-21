@@ -12,7 +12,7 @@ use Species\HtmlForm\FormOptionField;
 final class OptionField extends Field implements FormOptionField
 {
 
-    /** @var string[] */
+    /** @var iterable|string[] */
     private $options;
 
 
@@ -21,7 +21,7 @@ final class OptionField extends Field implements FormOptionField
      * @param array $data
      * @return self
      */
-    public function fromArray(array $data): self
+    public static function fromArray(array $data): self
     {
         return new self(
             $data['name'] ?? '',
@@ -36,14 +36,14 @@ final class OptionField extends Field implements FormOptionField
 
     /**
      * @param string        $name
-     * @param string[]      $options
+     * @param iterable      $options
      * @param string|null   $label        = ''
      * @param string|null   $defaultValue = ''
      * @param callable|null $resolver     = null
      */
     public function __construct(
         string $name,
-        array $options,
+        iterable $options,
         ?string $label = '',
         ?string $defaultValue = '',
         ?callable $resolver = null
@@ -52,7 +52,9 @@ final class OptionField extends Field implements FormOptionField
         $required = !isset($options['']);
 
         parent::__construct($name, $label, $defaultValue, $required, $resolver);
-        $this->options = $options;
+        foreach ($options as $value => $label) {
+            $this->options[$value] = $label;
+        }
 
         $this->guardValidOptions();
         $this->guardValueInOptions();
@@ -61,7 +63,7 @@ final class OptionField extends Field implements FormOptionField
 
 
     /** @inheritdoc */
-    public function getOptions(): array
+    public function getOptions(): iterable
     {
         return $this->options;
     }

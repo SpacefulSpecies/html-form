@@ -69,10 +69,10 @@ interface FormField
     public function submit(string $value);
 
     /**
-     * Whether the last submit had an error.
+     * Get the error message from last submit or null if there was no error.
      *
-     * @return bool
+     * @return string|null
      */
-    public function hasError(): bool;
+    public function getError(): ?string;
 
 }

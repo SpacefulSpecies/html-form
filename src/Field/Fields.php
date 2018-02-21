@@ -20,9 +20,30 @@ final class Fields implements FormFields
 
 
     /**
-     * @param FormField[] $fields
+     * @param array $data
+     * @return Fields
      */
-    public function __construct(array $fields = [])
+    public static function fromArray(array $data): self
+    {
+        $fields = new self();
+        foreach ($data as $name => $fieldData) {
+            $fieldData['name'] = $fieldData['name'] ?? $name;
+            if (isset($fieldData['options'])) {
+                $fields->add(OptionField::fromArray($fieldData));
+            } else {
+                $fields->add(InputField::fromArray($fieldData));
+            }
+        }
+
+        return $fields;
+    }
+
+
+
+    /**
+     * @param iterable $fields = []
+     */
+    public function __construct(iterable $fields = [])
     {
         foreach ($fields as $field) {
             $this->add($field);

@@ -14,7 +14,7 @@ final class InputField extends Field implements FormInputField
      * @param array $data
      * @return self
      */
-    public function fromArray(array $data): self
+    public static function fromArray(array $data): self
     {
         return new self(
             $data['name'] ?? '',

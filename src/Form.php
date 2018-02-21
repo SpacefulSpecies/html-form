@@ -23,23 +23,25 @@ interface Form
      * Submit a PSR-7 server request.
      *
      * @param ServerRequestInterface $request
+     * @return bool
      */
-    public function submitRequest(ServerRequestInterface $request): void;
+    public function submit(ServerRequestInterface $request): bool;
 
     /**
      * Submit an array of values.
      *
-     * @param array $values
+     * @param iterable $values
+     * @return bool
      */
-    public function submitArray(array $values): void;
+    public function submitIterable(iterable $values): bool;
 
 
 
     /**
-     * Return an array of errors that occurred on submitting.
+     * Return a list of errors that occurred on submitting.
      *
      * @return array
      */
-    public function getErrors(): array;
+    public function getErrors(): iterable;
 
 }

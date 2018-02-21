@@ -15,8 +15,8 @@ interface FormOptionField extends FormField
     /**
      * The options in the form of [$value => $label].
      *
-     * @return string[]
+     * @return iterable|string[]
      */
-    public function getOptions(): array;
+    public function getOptions(): iterable;
 
 }

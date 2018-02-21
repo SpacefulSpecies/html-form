@@ -4,6 +4,7 @@ namespace Species\HtmlForm\Field;
 
 use Species\HtmlForm\Exception\FieldIsRequired;
 use Species\HtmlForm\Exception\InvalidFieldName;
+use Species\HtmlForm\Exception\InvalidFieldValue;
 use Species\HtmlForm\FormField;
 
 /**
@@ -30,8 +31,8 @@ abstract class Field implements FormField
     /** @var callable|null */
     private $resolver;
 
-    /** @var bool */
-    private $error = false;
+    /** @var string|null */
+    private $error;
 
 
 
@@ -108,8 +109,8 @@ abstract class Field implements FormField
     /** @inheritdoc */
     final public function submit(string $value)
     {
+        $this->error = null;
         $this->value = $value;
-        $this->error = false;
         $resolver = $this->resolver;
 
         try {
@@ -120,13 +121,14 @@ abstract class Field implements FormField
 
             return $resolver ? $resolver($value) : $value;
         } catch (\Throwable $e) {
-            $this->error = true;
-            throw $e;
+            $this->error = $e->getMessage() ?: basename(get_class($e));
+
+            throw new InvalidFieldValue($e);
         }
     }
 
     /** @inheritdoc */
-    final public function hasError(): bool
+    final public function getError(): ?string
     {
         return $this->error;
     }

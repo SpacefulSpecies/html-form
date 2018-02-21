@@ -114,7 +114,7 @@ abstract class Field implements FormField
         $resolver = $this->resolver;
 
         try {
-            if ($this->required && $value = '') {
+            if ($this->required && $value === '') {
                 throw new FieldIsRequired();
             }
             $this->guardFieldValue();

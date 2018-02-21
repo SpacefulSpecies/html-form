@@ -2,17 +2,17 @@
 
 namespace Species\HtmlForm\Field;
 
-use Species\HtmlForm\Exception\FieldValueNotInSet;
-use Species\HtmlForm\FormField;
+use Species\HtmlForm\Exception\FieldValueNotInOptions;
+use Species\HtmlForm\FormOptionField;
 
 /**
- * Implementation of a form field set like select and radio.
+ * Implementation of an form option field like select and radio.
  */
-final class FieldSet extends Field implements FormField
+final class OptionField extends Field implements FormOptionField
 {
 
     /** @var string[] */
-    private $values;
+    private $options;
 
     /** @var string */
     private $name;
@@ -28,7 +28,7 @@ final class FieldSet extends Field implements FormField
         return new self(
             $data['name'] ?? '',
             $data['label'] ?? '',
-            $data['values'] ?? [],
+            $data['options'] ?? [],
             $data['defaultValue'] ?? null,
             $data['required'] ?? null,
             $data['resolver'] ?? null
@@ -40,7 +40,7 @@ final class FieldSet extends Field implements FormField
     /**
      * @param string        $name
      * @param string        $label
-     * @param string[]      $values
+     * @param string[]      $options
      * @param string        $defaultValue = null (default: '')
      * @param bool|null     $required     = null (default: false)
      * @param callable|null $resolver     = null
@@ -48,24 +48,24 @@ final class FieldSet extends Field implements FormField
     public function __construct(
         string $name,
         string $label,
-        array $values,
+        array $options,
         ?string $defaultValue = null,
         ?bool $required = null,
         ?callable $resolver = null
     )
     {
         parent::__construct($name, $label, $defaultValue, $required, $resolver);
-        $this->values = $values;
-        $this->assertValueInSet($this->getValue());
+        $this->options = $options;
+        $this->assertValueInOptions($this->getValue());
         $this->name = $name;
     }
 
 
 
     /** @inheritdoc */
-    public function getValues(): array
+    public function getOptions(): array
     {
-        return $this->values;
+        return $this->options;
     }
 
 
@@ -73,7 +73,7 @@ final class FieldSet extends Field implements FormField
     /** @inheritdoc */
     public function resolve()
     {
-        $this->assertValueInSet($this->getValue());
+        $this->assertValueInOptions($this->getValue());
 
         return parent::resolve();
     }
@@ -82,12 +82,12 @@ final class FieldSet extends Field implements FormField
 
     /**
      * @param string $value
-     * @throws FieldValueNotInSet
+     * @throws FieldValueNotInOptions
      */
-    private function assertValueInSet(string $value): void
+    private function assertValueInOptions(string $value): void
     {
-        if ($value && !in_array($value, $this->values, true)) {
-            throw new FieldValueNotInSet();
+        if ($value && !in_array($value, $this->options, true)) {
+            throw new FieldValueNotInOptions();
         }
     }
 

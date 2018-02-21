@@ -85,11 +85,13 @@ final class Form implements HtmlForm
             }
         }
 
-        try {
-            $handler = $this->handler;
-            $handler($resolved);
-        } catch (\Throwable $e) {
-            $this->errors['form'] = $e->getMessage() ?: basename(get_class($e));
+        if (empty($this->errors)) {
+            try {
+                $handler = $this->handler;
+                $handler($resolved);
+            } catch (\Throwable $e) {
+                $this->errors['form'] = $e->getMessage() ?: basename(get_class($e));
+            }
         }
 
         return empty($this->errors);

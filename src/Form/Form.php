@@ -3,7 +3,6 @@
 namespace Species\HtmlForm\Form;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Species\HtmlForm\Exception\InvalidFieldValue;
 use Species\HtmlForm\Field\Fields;
 use Species\HtmlForm\HtmlForm;
 use Species\HtmlForm\FormFields;
@@ -59,7 +58,7 @@ final class Form implements HtmlForm
     public function submit(ServerRequestInterface $request): bool
     {
         $values = $request->getParsedBody();
-        if (!is_array($values) || !$values instanceof \ArrayAccess) {
+        if (!is_array($values) && !$values instanceof \ArrayAccess) {
             $this->errors['form'] = 'CannotParseRequestBody';
 
             return false;

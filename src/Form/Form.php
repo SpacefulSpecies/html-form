@@ -78,8 +78,9 @@ final class Form implements HtmlForm
         foreach ($this->fields as $field) {
             $name = $field->getName();
             try {
-                $resolved[$name] = $field->submit($values[$name] ?? '');
-            } catch (InvalidFieldValue $e) {
+                $value = $values[$name] ?? $field->getValue();
+                $resolved[$name] = $field->submit($value);
+            } catch (\Throwable $e) {
                 $this->errors[$name] = $field->getError();
             }
         }

@@ -9,11 +9,25 @@ final class InvalidFieldValue extends \InvalidArgumentException implements HtmlF
 {
 
     /**
-     * @param \Throwable $previous
+     * @param \Throwable  $previous
+     * @param string|null $message = null
      */
-    public function __construct(\Throwable $previous)
+    public function __construct(\Throwable $previous, ?string $message = null)
     {
-        parent::__construct('', 0, $previous);
+        $message = $message ?? $this->getClassName($previous);
+
+        parent::__construct($message, 0, $previous);
+    }
+
+
+
+    /**
+     * @param \Throwable $e
+     * @return string
+     */
+    private function getClassName(\Throwable $e): string
+    {
+        return array_pop(explode('\\', get_class($e)));
     }
 
 }

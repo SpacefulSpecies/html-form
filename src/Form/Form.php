@@ -3,6 +3,7 @@
 namespace Species\HtmlForm\Form;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Species\HtmlForm\Exception\InvalidFieldValue;
 use Species\HtmlForm\Field\Fields;
 use Species\HtmlForm\HtmlForm;
 use Species\HtmlForm\FormFields;
@@ -89,7 +90,8 @@ final class Form implements HtmlForm
                 $handler = $this->handler;
                 $handler($resolved);
             } catch (\Throwable $e) {
-                $this->errors['form'] = $e->getMessage() ?: basename(get_class($e));
+                $e = new InvalidFieldValue($e);
+                $this->errors['form'] = $e->getMessage();
             }
         }
 

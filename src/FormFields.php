@@ -41,16 +41,17 @@ interface FormFields extends \IteratorAggregate, \Countable, \ArrayAccess
 
 
 
-    // Override return types and docs of \IteratorAggregate and \ArrayAccess.
+    // Override return types and docs of \Countable, \IteratorAggregate and \ArrayAccess.
     // The $offset of \ArrayAccess is the same as the field name.
+
+    /** @inheritdoc */
+    public function count(): int;
 
     /**
      * @inheritdoc
      * @return \Traversable|FormField[]
      */
     public function getIterator(): \Traversable;
-
-
 
     /**
      * @inheritdoc

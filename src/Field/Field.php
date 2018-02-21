@@ -57,7 +57,7 @@ abstract class Field implements FormField
         $this->required = $required ?? false;
         $this->resolver = $resolver;
 
-        $this->value = $defaultValue;
+        $this->value = $this->defaultValue;
 
         $this->guardFieldName();
     }

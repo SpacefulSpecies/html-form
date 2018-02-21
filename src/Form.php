@@ -36,9 +36,9 @@ interface Form
 
 
     /**
-     * Return an array of error messages that occurred on submitting.
+     * Return an array of errors that occurred on submitting.
      *
-     * @return string[]
+     * @return array
      */
     public function getErrors(): array;
 

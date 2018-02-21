@@ -2,10 +2,12 @@
 
 namespace Species\HtmlForm\Field;
 
+use Species\HtmlForm\FormInputField;
+
 /**
- * Implementation of standard input field
+ * Implementation of standard input field.
  */
-final class InputField extends Field
+final class InputField extends Field implements FormInputField
 {
 
     /**
@@ -21,6 +23,14 @@ final class InputField extends Field
             $data['required'] ?? null,
             $data['resolver'] ?? null
         );
+    }
+
+
+
+    /** @inheritdoc */
+    protected function guardFieldValue(): void
+    {
+        // all values are fine.
     }
 
 }

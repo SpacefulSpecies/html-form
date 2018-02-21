@@ -30,35 +30,35 @@ abstract class Field implements FormField
     /** @var callable|null */
     private $resolver;
 
+    /** @var bool */
+    private $error = false;
+
 
 
     /**
      * @param string        $name
-     * @param string        $label
-     * @param string        $defaultValue = null (default: '')
-     * @param bool|null     $required     = null (default: false)
+     * @param string|null   $label        = ''
+     * @param string|null   $defaultValue = ''
+     * @param bool|null     $required     = false
      * @param callable|null $resolver     = null
      */
     public function __construct(
         string $name,
-        string $label,
-        ?string $defaultValue = null,
-        ?bool $required = null,
+        ?string $label = '',
+        ?string $defaultValue = '',
+        ?bool $required = false,
         ?callable $resolver = null
     )
     {
-        $name = trim($name);
-        if ($name === '') {
-            throw new InvalidFieldName();
-        }
-
-        $this->name = $name;
-        $this->label = $label;
+        $this->name = trim($name);
+        $this->label = $label ?? '';
         $this->defaultValue = $defaultValue ?? '';
         $this->required = $required ?? false;
         $this->resolver = $resolver;
 
         $this->value = $defaultValue;
+
+        $this->guardFieldName();
     }
 
 
@@ -96,13 +96,6 @@ abstract class Field implements FormField
 
 
     /** @inheritdoc */
-    final public function submit(string $value): void
-    {
-        $this->value = $value;
-    }
-
-
-    /** @inheritdoc */
     final public function reset(): string
     {
         $previous = $this->value;
@@ -112,16 +105,47 @@ abstract class Field implements FormField
     }
 
 
-
     /** @inheritdoc */
-    public function resolve()
+    final public function submit(string $value)
     {
-        if ($this->required && $this->value = '') {
-            throw new FieldIsRequired();
-        }
+        $this->value = $value;
+        $this->error = false;
         $resolver = $this->resolver;
 
-        return $resolver ? $resolver($this->value) : $this->value;
+        try {
+            if ($this->required && $value = '') {
+                throw new FieldIsRequired();
+            }
+            $this->guardFieldValue();
+
+            return $resolver ? $resolver($value) : $value;
+        } catch (\Throwable $e) {
+            $this->error = true;
+            throw $e;
+        }
+    }
+
+    /** @inheritdoc */
+    final public function hasError(): bool
+    {
+        return $this->error;
+    }
+
+
+
+    /**
+     * @throws \Throwable
+     */
+    abstract protected function guardFieldValue(): void;
+
+    /**
+     * @throws InvalidFieldName
+     */
+    final protected function guardFieldName(): void
+    {
+        if ($this->name === '') {
+            throw new InvalidFieldName();
+        }
     }
 
 }

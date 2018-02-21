@@ -2,8 +2,8 @@
 
 namespace Species\HtmlForm;
 
-use Species\HtmlForm\Exception\InvalidFieldName;
 use Species\HtmlForm\Exception\FieldIsRequired;
+use Species\HtmlForm\Exception\InvalidFieldName;
 use Species\HtmlForm\Exception\InvalidFieldValue;
 
 /**
@@ -52,28 +52,27 @@ interface FormField
 
 
     /**
-     * Submit the form field with given value.
-     *
-     * @param string $value
-     */
-    public function submit(string $value): void;
-
-    /**
      * Reset the form field to its default value and return the previous value.
      *
      * @return string
      */
     public function reset(): string;
 
-
-
     /**
-     * Return the resolved value that you can use in your domain.
+     * Submit the form field with given value and return the resolved value that you can use in your domain.
      *
+     * @param string $value
      * @return mixed
      * @throws FieldIsRequired
      * @throws InvalidFieldValue
      */
-    public function resolve();
+    public function submit(string $value);
+
+    /**
+     * Whether the last submit had an error.
+     *
+     * @return bool
+     */
+    public function hasError(): bool;
 
 }

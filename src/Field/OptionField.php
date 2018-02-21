@@ -3,6 +3,7 @@
 namespace Species\HtmlForm\Field;
 
 use Species\HtmlForm\Exception\FieldValueNotInOptions;
+use Species\HtmlForm\Exception\InvalidFieldOptions;
 use Species\HtmlForm\FormOptionField;
 
 /**
@@ -14,9 +15,6 @@ final class OptionField extends Field implements FormOptionField
     /** @var string[] */
     private $options;
 
-    /** @var string */
-    private $name;
-
 
 
     /**
@@ -27,10 +25,9 @@ final class OptionField extends Field implements FormOptionField
     {
         return new self(
             $data['name'] ?? '',
-            $data['label'] ?? '',
             $data['options'] ?? [],
+            $data['label'] ?? null,
             $data['defaultValue'] ?? null,
-            $data['required'] ?? null,
             $data['resolver'] ?? null
         );
     }
@@ -39,25 +36,26 @@ final class OptionField extends Field implements FormOptionField
 
     /**
      * @param string        $name
-     * @param string        $label
      * @param string[]      $options
-     * @param string        $defaultValue = null (default: '')
-     * @param bool|null     $required     = null (default: false)
+     * @param string|null   $label        = ''
+     * @param string|null   $defaultValue = ''
      * @param callable|null $resolver     = null
      */
     public function __construct(
         string $name,
-        string $label,
         array $options,
-        ?string $defaultValue = null,
-        ?bool $required = null,
+        ?string $label = '',
+        ?string $defaultValue = '',
         ?callable $resolver = null
     )
     {
+        $required = !isset($options['']);
+
         parent::__construct($name, $label, $defaultValue, $required, $resolver);
         $this->options = $options;
-        $this->assertValueInOptions($this->getValue());
-        $this->name = $name;
+
+        $this->guardValidOptions();
+        $this->guardValueInOptions();
     }
 
 
@@ -71,22 +69,34 @@ final class OptionField extends Field implements FormOptionField
 
 
     /** @inheritdoc */
-    public function resolve()
+    protected function guardFieldValue(): void
     {
-        $this->assertValueInOptions($this->getValue());
-
-        return parent::resolve();
+        $this->guardValueInOptions();
     }
 
 
 
     /**
-     * @param string $value
+     * @throws InvalidFieldOptions
+     */
+    private function guardValidOptions(): void
+    {
+        if (count($this->options) === 0) {
+            throw new InvalidFieldOptions();
+        }
+        foreach ($this->options as $value => $label) {
+            if (!is_string($value) || !is_string($label)) {
+                throw new InvalidFieldOptions();
+            }
+        }
+    }
+
+    /**
      * @throws FieldValueNotInOptions
      */
-    private function assertValueInOptions(string $value): void
+    private function guardValueInOptions(): void
     {
-        if ($value && !in_array($value, $this->options, true)) {
+        if (!isset($this->options[$this->getValue()])) {
             throw new FieldValueNotInOptions();
         }
     }

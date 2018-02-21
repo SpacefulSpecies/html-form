@@ -2,10 +2,12 @@
 
 namespace Species\HtmlForm;
 
-use Species\HtmlForm\Exception\FieldValueNotInOptions;
+use Species\HtmlForm\Exception\InvalidFieldOptions;
 
 /**
  * Form option field interface (like <select> and <input type="radio">).
+ *
+ * @throws InvalidFieldOptions
  */
 interface FormOptionField extends FormField
 {
@@ -16,13 +18,5 @@ interface FormOptionField extends FormField
      * @return string[]
      */
     public function getOptions(): array;
-
-
-
-    /**
-     * @inheritdoc
-     * @throws FieldValueNotInOptions
-     */
-    public function resolve();
 
 }

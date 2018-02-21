@@ -8,4 +8,19 @@ namespace Species\HtmlForm\Field;
 final class InputField extends Field
 {
 
+    /**
+     * @param array $data
+     * @return self
+     */
+    public function fromArray(array $data): self
+    {
+        return new self(
+            $data['name'] ?? '',
+            $data['label'] ?? '',
+            $data['defaultValue'] ?? null,
+            $data['required'] ?? null,
+            $data['resolver'] ?? null
+        );
+    }
+
 }

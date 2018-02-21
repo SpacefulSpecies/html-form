@@ -16,6 +16,9 @@ abstract class Field implements FormField
     private $name;
 
     /** @var string */
+    private $label;
+
+    /** @var string */
     private $value;
 
     /** @var string */
@@ -31,12 +34,14 @@ abstract class Field implements FormField
 
     /**
      * @param string        $name
+     * @param string        $label
      * @param string        $defaultValue = null (default: '')
      * @param bool|null     $required     = null (default: false)
      * @param callable|null $resolver     = null
      */
     public function __construct(
         string $name,
+        string $label,
         ?string $defaultValue = null,
         ?bool $required = null,
         ?callable $resolver = null
@@ -48,6 +53,7 @@ abstract class Field implements FormField
         }
 
         $this->name = $name;
+        $this->label = $label;
         $this->defaultValue = $defaultValue ?? '';
         $this->required = $required ?? false;
         $this->resolver = $resolver;
@@ -61,6 +67,12 @@ abstract class Field implements FormField
     final public function getName(): string
     {
         return $this->name;
+    }
+
+    /** @inheritdoc */
+    final public function getLabel(): string
+    {
+        return $this->label;
     }
 
     /** @inheritdoc */

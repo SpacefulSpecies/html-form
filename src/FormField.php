@@ -22,6 +22,13 @@ interface FormField
     public function getName(): string;
 
     /**
+     * Get the corresponding label of the form field.
+     *
+     * @return string
+     */
+    public function getLabel(): string;
+
+    /**
      * Get the value of the form field.
      *
      * @return string

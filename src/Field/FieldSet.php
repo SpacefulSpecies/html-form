@@ -14,10 +14,32 @@ final class FieldSet extends Field implements FormField
     /** @var string[] */
     private $values;
 
+    /** @var string */
+    private $name;
+
+
+
+    /**
+     * @param array $data
+     * @return self
+     */
+    public function fromArray(array $data): self
+    {
+        return new self(
+            $data['name'] ?? '',
+            $data['label'] ?? '',
+            $data['values'] ?? [],
+            $data['defaultValue'] ?? null,
+            $data['required'] ?? null,
+            $data['resolver'] ?? null
+        );
+    }
+
 
 
     /**
      * @param string        $name
+     * @param string        $label
      * @param string[]      $values
      * @param string        $defaultValue = null (default: '')
      * @param bool|null     $required     = null (default: false)
@@ -25,15 +47,17 @@ final class FieldSet extends Field implements FormField
      */
     public function __construct(
         string $name,
+        string $label,
         array $values,
         ?string $defaultValue = null,
         ?bool $required = null,
         ?callable $resolver = null
     )
     {
-        parent::__construct($name, $defaultValue, $required, $resolver);
+        parent::__construct($name, $label, $defaultValue, $required, $resolver);
         $this->values = $values;
         $this->assertValueInSet($this->getValue());
+        $this->name = $name;
     }
 
 

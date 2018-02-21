@@ -12,8 +12,8 @@ use Species\HtmlForm\FormOptionField;
 final class OptionField extends Field implements FormOptionField
 {
 
-    /** @var iterable|string[] */
-    private $options;
+    /** @var string[] */
+    private $options = [];
 
 
 
@@ -63,7 +63,7 @@ final class OptionField extends Field implements FormOptionField
 
 
     /** @inheritdoc */
-    public function getOptions(): iterable
+    public function getOptions(): array
     {
         return $this->options;
     }

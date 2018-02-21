@@ -5,7 +5,7 @@ namespace Species\HtmlForm;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Form interface.
+ * Html form interface.
  */
 interface HtmlForm
 {
@@ -30,18 +30,18 @@ interface HtmlForm
     /**
      * Submit an array of values.
      *
-     * @param iterable $values
+     * @param array $values
      * @return bool
      */
-    public function submitIterable(iterable $values): bool;
+    public function submitArray(array $values): bool;
 
 
 
     /**
-     * Return a list of errors that occurred on submitting.
+     * Return an array of errors that occurred on submitting.
      *
      * @return array
      */
-    public function getErrors(): iterable;
+    public function getErrors(): array;
 
 }

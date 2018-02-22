@@ -27,7 +27,9 @@ final class InvalidFieldValue extends \InvalidArgumentException implements HtmlF
      */
     private function getClassName(\Throwable $e): string
     {
-        return array_pop(explode('\\', get_class($e)));
+        $parts = explode('\\', get_class($e));
+        
+        return array_pop($parts);
     }
 
 }

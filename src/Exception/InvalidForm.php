@@ -3,9 +3,9 @@
 namespace Species\HtmlForm\Exception;
 
 /**
- * Exception thrown when trying to resolve an invalid field value.
+ * Exception thrown when handling a form failed.
  */
-final class InvalidFieldValue extends \InvalidArgumentException implements HtmlFormException
+final class InvalidForm extends \InvalidArgumentException implements HtmlFormException
 {
 
     /**

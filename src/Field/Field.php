@@ -121,7 +121,7 @@ abstract class Field implements FormField
 
             return $resolver ? $resolver($value) : $value;
         } catch (\Throwable $e) {
-            $e = new InvalidFieldValue($e);
+            $e = InvalidFieldValue::withReason($e);
             $this->error = $e->getMessage();
 
             throw $e;

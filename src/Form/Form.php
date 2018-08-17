@@ -26,16 +26,17 @@ final class Form implements HtmlForm
 
 
     /**
-     * @param callable              $handler
-     * @param FormFields|array|null $fields = null
+     * @param callable|null         $handler = null
+     * @param FormFields|array|null $fields  = null
      */
-    public function __construct(callable $handler, $fields = null)
+    public function __construct(?callable $handler = null, $fields = null)
     {
         if (!$fields instanceof FormFields) {
             $fields = Fields::fromArray($fields ?? []);
         }
 
-        $this->handler = $handler;
+        $this->handler = $handler ?: function (): void {
+        };
         $this->fields = $fields;
     }
 

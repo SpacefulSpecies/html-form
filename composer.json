@@ -2,10 +2,11 @@
     "name": "species/html-form",
     "description": "HTML form building and handling.",
     "type": "library",
+    "license": "MIT",
 
     "autoload": {
         "psr-4": {
-            "Species\\HtmlForm\\": ["src/", "tests/"]
+            "Species\\HtmlForm\\": "src/"
         }
     },
 

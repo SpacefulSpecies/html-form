@@ -18,7 +18,7 @@ final class InputField extends Field implements FormInputField
     {
         return new self(
             $data['name'] ?? '',
-            $data['label'] ?? '',
+            $data['label'] ?? null,
             $data['defaultValue'] ?? null,
             $data['required'] ?? null,
             $data['resolver'] ?? null,

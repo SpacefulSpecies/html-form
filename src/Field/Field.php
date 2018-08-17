@@ -41,7 +41,7 @@ abstract class Field implements FormField
      * @param string        $name
      * @param string|null   $label        = ''
      * @param string|null   $defaultValue = ''
-     * @param bool|null     $required     = false
+     * @param bool|null     $required     = true
      * @param callable|null $resolver     = null
      * @param callable|null $handler
      */
@@ -49,7 +49,7 @@ abstract class Field implements FormField
         string $name,
         ?string $label = '',
         ?string $defaultValue = '',
-        ?bool $required = false,
+        ?bool $required = true,
         ?callable $resolver = null,
         ?callable $handler = null
     )
@@ -57,7 +57,7 @@ abstract class Field implements FormField
         $this->name = trim($name);
         $this->label = $label ?? '';
         $this->defaultValue = $defaultValue ?? '';
-        $this->required = $required ?? false;
+        $this->required = $required ?? true;
         $this->resolver = $resolver;
         $this->handler = $handler;
 

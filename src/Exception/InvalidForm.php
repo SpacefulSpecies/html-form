@@ -3,17 +3,21 @@
 namespace Species\HtmlForm\Exception;
 
 /**
- * Exception thrown when handling a form failed.
+ * Exception thrown when form handling failed.
  */
-final class InvalidForm extends \InvalidArgumentException implements HtmlFormException
+final class InvalidForm extends \DomainException implements HtmlFormException
 {
 
     /**
      * @param \Throwable $reason
      * @return self
      */
-    public static function withReason(\Throwable $reason)
+    public static function withReason(\Throwable $reason): self
     {
+        if ($reason instanceof self) {
+            return $reason;
+        }
+
         $message = $reason->getMessage() ?: self::getClassName($reason);
 
         return new self($message, 0, $reason);

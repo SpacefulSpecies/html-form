@@ -87,6 +87,17 @@ final class Form implements HtmlForm
         }
 
         if (empty($this->errors)) {
+            foreach ($this->fields as $field) {
+                $name = $field->getName();
+                try {
+                    $field->handle($this->fields);
+                } catch (\Throwable $e) {
+                    $this->errors[$name] = $field->getError();
+                }
+            }
+        }
+
+        if (empty($this->errors)) {
             try {
                 $handler = $this->handler;
                 $handler($resolved);

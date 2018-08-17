@@ -32,7 +32,7 @@ final class Form implements HtmlForm
     public function __construct(?callable $handler = null, $fields = null)
     {
         if (!$fields instanceof FormFields) {
-            $fields = Fields::fromArray($fields ?? []);
+            $fields = Fields::fromArray(is_array($fields) ? $fields : []);
         }
 
         $this->handler = $handler ?: function (): void {
@@ -60,7 +60,7 @@ final class Form implements HtmlForm
     public function submit(ServerRequestInterface $request): bool
     {
         $values = $request->getParsedBody();
-        if (!is_array($values) && !$values instanceof \ArrayAccess) {
+        if (!is_array($values)) {
             $this->errors['form'] = 'CannotParseRequestBody';
 
             return false;
@@ -73,7 +73,7 @@ final class Form implements HtmlForm
     public function submitArray(array $values): bool
     {
         $this->errors = [];
-        $values = $this->resolveArrayToFieldNames($values);
+        $values = $this->resolveFieldNames($values);
 
         $resolved = [];
         foreach ($this->fields as $field) {
@@ -102,17 +102,17 @@ final class Form implements HtmlForm
 
 
     /**
-     * @param iterable $array
-     * @param string   $parentName
+     * @param array  $array
+     * @param string $parentName
      * @return array
      */
-    private function resolveArrayToFieldNames(iterable $array, $parentName = ''): array
+    private function resolveFieldNames(array $array, $parentName = ''): array
     {
         $resolved = [];
         foreach ($array as $key => $value) {
             $name = $parentName ? $parentName . "[$key]" : $key;
             if (is_iterable($value)) {
-                $resolved += $this->resolveArrayToFieldNames($value, $name);
+                $resolved += $this->resolveFieldNames($value, $name);
             } else {
                 $resolved[$name] = $value;
             }

@@ -21,7 +21,8 @@ final class InputField extends Field implements FormInputField
             $data['label'] ?? '',
             $data['defaultValue'] ?? null,
             $data['required'] ?? null,
-            $data['resolver'] ?? null
+            $data['resolver'] ?? null,
+            $data['handler'] ?? null
         );
     }
 

@@ -2,10 +2,8 @@
 
 namespace Species\HtmlForm\Field;
 
-use Species\HtmlForm\Exception\FieldIsRequired;
-use Species\HtmlForm\Exception\InvalidFieldName;
-use Species\HtmlForm\Exception\InvalidFieldValue;
-use Species\HtmlForm\FormField;
+use Species\HtmlForm\Exception\{FieldIsRequired, InvalidFieldName, InvalidFieldValue};
+use Species\HtmlForm\{FormField, FormFields};
 
 /**
  * Boilerplate for form field implementations.
@@ -31,6 +29,9 @@ abstract class Field implements FormField
     /** @var callable|null */
     private $resolver;
 
+    /** @var callable|null */
+    private $handler;
+
     /** @var string|null */
     private $error;
 
@@ -42,13 +43,15 @@ abstract class Field implements FormField
      * @param string|null   $defaultValue = ''
      * @param bool|null     $required     = false
      * @param callable|null $resolver     = null
+     * @param callable|null $handler
      */
     public function __construct(
         string $name,
         ?string $label = '',
         ?string $defaultValue = '',
         ?bool $required = false,
-        ?callable $resolver = null
+        ?callable $resolver = null,
+        ?callable $handler = null
     )
     {
         $this->name = trim($name);
@@ -56,6 +59,7 @@ abstract class Field implements FormField
         $this->defaultValue = $defaultValue ?? '';
         $this->required = $required ?? false;
         $this->resolver = $resolver;
+        $this->handler = $handler;
 
         $this->value = $this->defaultValue;
 
@@ -121,10 +125,26 @@ abstract class Field implements FormField
 
             return $resolver ? $resolver($value) : $value;
         } catch (\Throwable $e) {
-            $e = new InvalidFieldValue($e);
+            $e = InvalidFieldValue::withReason($e);
             $this->error = $e->getMessage();
 
             throw $e;
+        }
+    }
+
+    /** @inheritdoc */
+    final public function handle(FormFields $context): void
+    {
+        $handle = $this->handler;
+        if ($handle) {
+            try {
+                $handle($context);
+            } catch (\Throwable $e) {
+                $e = InvalidFieldValue::withReason($e);
+                $this->error = $e->getMessage();
+
+                throw $e;
+            }
         }
     }
 

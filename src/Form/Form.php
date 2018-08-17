@@ -3,7 +3,7 @@
 namespace Species\HtmlForm\Form;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Species\HtmlForm\Exception\InvalidFieldValue;
+use Species\HtmlForm\Exception\InvalidForm;
 use Species\HtmlForm\Field\Fields;
 use Species\HtmlForm\HtmlForm;
 use Species\HtmlForm\FormFields;
@@ -26,16 +26,17 @@ final class Form implements HtmlForm
 
 
     /**
-     * @param callable              $handler
-     * @param FormFields|array|null $fields = null
+     * @param callable|null         $handler = null
+     * @param FormFields|array|null $fields  = null
      */
-    public function __construct(callable $handler, $fields = null)
+    public function __construct(?callable $handler = null, $fields = null)
     {
         if (!$fields instanceof FormFields) {
-            $fields = Fields::fromArray($fields ?? []);
+            $fields = Fields::fromArray(is_array($fields) ? $fields : []);
         }
 
-        $this->handler = $handler;
+        $this->handler = $handler ?: function (): void {
+        };
         $this->fields = $fields;
     }
 
@@ -59,7 +60,7 @@ final class Form implements HtmlForm
     public function submit(ServerRequestInterface $request): bool
     {
         $values = $request->getParsedBody();
-        if (!is_array($values) && !$values instanceof \ArrayAccess) {
+        if (!is_array($values)) {
             $this->errors['form'] = 'CannotParseRequestBody';
 
             return false;
@@ -72,7 +73,7 @@ final class Form implements HtmlForm
     public function submitArray(array $values): bool
     {
         $this->errors = [];
-        $values = $this->resolveArrayToFieldNames($values);
+        $values = $this->resolveFieldNames($values);
 
         $resolved = [];
         foreach ($this->fields as $field) {
@@ -86,11 +87,22 @@ final class Form implements HtmlForm
         }
 
         if (empty($this->errors)) {
+            foreach ($this->fields as $field) {
+                $name = $field->getName();
+                try {
+                    $field->handle($this->fields);
+                } catch (\Throwable $e) {
+                    $this->errors[$name] = $field->getError();
+                }
+            }
+        }
+
+        if (empty($this->errors)) {
             try {
                 $handler = $this->handler;
                 $handler($resolved);
             } catch (\Throwable $e) {
-                $e = new InvalidFieldValue($e);
+                $e = InvalidForm::withReason($e);
                 $this->errors['form'] = $e->getMessage();
             }
         }
@@ -101,17 +113,17 @@ final class Form implements HtmlForm
 
 
     /**
-     * @param iterable $array
-     * @param string   $parentName
+     * @param array  $array
+     * @param string $parentName
      * @return array
      */
-    private function resolveArrayToFieldNames(iterable $array, $parentName = ''): array
+    private function resolveFieldNames(array $array, $parentName = ''): array
     {
         $resolved = [];
         foreach ($array as $key => $value) {
             $name = $parentName ? $parentName . "[$key]" : $key;
             if (is_iterable($value)) {
-                $resolved += $this->resolveArrayToFieldNames($value, $name);
+                $resolved += $this->resolveFieldNames($value, $name);
             } else {
                 $resolved[$name] = $value;
             }

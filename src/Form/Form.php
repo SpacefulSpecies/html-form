@@ -80,7 +80,7 @@ final class Form implements HtmlForm
             $name = $field->getName();
             try {
                 $value = $values[$name] ?? $field->getValue();
-                $resolved[$name] = $field->submit($value);
+                $resolved[$name] = $field->submit($value, $values);
             } catch (\Throwable $e) {
                 $this->errors[$name] = $field->getError();
             }

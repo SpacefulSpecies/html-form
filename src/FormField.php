@@ -59,14 +59,16 @@ interface FormField
     public function reset(): string;
 
     /**
-     * Submit the form field with given value and return the resolved value that you can use in your domain.
+     * Submit the form field with given value in context and
+     * return the resolved value that you can use in your domain.
      *
      * @param string $value
+     * @param array  $context
      * @return mixed
      * @throws FieldIsRequired
      * @throws InvalidFieldValue
      */
-    public function submit(string $value);
+    public function submit(string $value, array $context);
 
     /**
      * Get the error message from last submit or null if there was no error.

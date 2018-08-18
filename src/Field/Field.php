@@ -105,7 +105,7 @@ abstract class Field implements FormField
 
 
     /** @inheritdoc */
-    final public function submit(string $value)
+    final public function submit(string $value, array $context)
     {
         $this->error = null;
         $this->value = $value;
@@ -117,7 +117,7 @@ abstract class Field implements FormField
             }
             $this->guardFieldValue();
 
-            return $resolver ? $resolver($value) : $value;
+            return $resolver ? $resolver($value, $context) : $value;
         } catch (\Throwable $e) {
             $e = InvalidFieldValue::withReason($e);
             $this->error = $e->getMessage();

@@ -28,8 +28,7 @@ final class OptionField extends Field implements FormOptionField
             $data['options'] ?? [],
             $data['label'] ?? null,
             $data['defaultValue'] ?? null,
-            $data['resolver'] ?? null,
-            $data['handler'] ?? null
+            $data['resolver'] ?? null
         );
     }
 
@@ -41,20 +40,18 @@ final class OptionField extends Field implements FormOptionField
      * @param string|null   $label        = ''
      * @param string|null   $defaultValue = ''
      * @param callable|null $resolver     = null
-     * @param callable|null $handler
      */
     public function __construct(
         string $name,
         iterable $options,
         ?string $label = '',
         ?string $defaultValue = '',
-        ?callable $resolver = null,
-        ?callable $handler = null
+        ?callable $resolver = null
     )
     {
         $required = !isset($options['']);
 
-        parent::__construct($name, $label, $defaultValue, $required, $resolver, $handler);
+        parent::__construct($name, $label, $defaultValue, $required, $resolver);
         foreach ($options as $value => $label) {
             $this->options[$value] = $label;
         }

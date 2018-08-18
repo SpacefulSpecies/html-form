@@ -69,14 +69,6 @@ interface FormField
     public function submit(string $value);
 
     /**
-     * Handle the field in given context.
-     *
-     * @param FormFields $context
-     * @throws InvalidFieldValue
-     */
-    public function handle(FormFields $context): void;
-
-    /**
      * Get the error message from last submit or null if there was no error.
      *
      * @return string|null

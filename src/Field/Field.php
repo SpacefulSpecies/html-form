@@ -135,7 +135,7 @@ abstract class Field implements FormField
 
 
     /**
-     * @throws \Throwable
+     * @throws \InvalidArgumentException
      */
     abstract protected function guardFieldValue(): void;
 

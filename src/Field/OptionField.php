@@ -58,7 +58,9 @@ final class OptionField extends Field implements FormOptionField
         }
 
         $this->guardValidOptions();
-        $this->guardFieldValue();
+        if ($this->getDefaultValue()) {
+            $this->guardFieldValue();
+        }
     }
 
 

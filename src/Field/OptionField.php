@@ -2,6 +2,7 @@
 
 namespace Species\HtmlForm\Field;
 
+use Species\HtmlForm\Exception\FieldIsRequired;
 use Species\HtmlForm\Exception\FieldValueNotInOptions;
 use Species\HtmlForm\Exception\InvalidFieldOptions;
 use Species\HtmlForm\FormOptionField;
@@ -57,7 +58,9 @@ final class OptionField extends Field implements FormOptionField
         }
 
         $this->guardValidOptions();
-        $this->guardValueInOptions();
+        if ($this->getDefaultValue()) {
+            $this->guardFieldValue();
+        }
     }
 
 
@@ -73,7 +76,9 @@ final class OptionField extends Field implements FormOptionField
     /** @inheritdoc */
     protected function guardFieldValue(): void
     {
-        $this->guardValueInOptions();
+        if (!isset($this->options[$this->getValue()])) {
+            throw new FieldValueNotInOptions();
+        }
     }
 
 
@@ -90,16 +95,6 @@ final class OptionField extends Field implements FormOptionField
             if (!is_string($value) || !is_string($label)) {
                 throw new InvalidFieldOptions();
             }
-        }
-    }
-
-    /**
-     * @throws FieldValueNotInOptions
-     */
-    private function guardValueInOptions(): void
-    {
-        if (!isset($this->options[$this->getValue()])) {
-            throw new FieldValueNotInOptions();
         }
     }
 

@@ -173,13 +173,13 @@ final class FormFactory
             case 'time':
                 return new TimeField($name, $c->value, $c->required, $c->handler);
             case 'date':
-                return new DateField($name, $c->value, $c->required, $c->handler);
+                return new DateField($name, $c->date, $c->required, $c->handler);
             case 'datetime':
-                return new DateTimeField($name, $c->value, $c->required, $c->handler);
+                return new DateTimeField($name, $c->date, $c->required, $c->handler);
             case 'week':
-                return new WeekField($name, $c->value, $c->required, $c->handler);
+                return new WeekField($name, $c->date, $c->required, $c->handler);
             case 'month':
-                return new MonthField($name, $c->value, $c->required, $c->handler);
+                return new MonthField($name, $c->date, $c->required, $c->handler);
 
             default:
                 return new TextField($name, $c->value, $c->required, $c->handler);

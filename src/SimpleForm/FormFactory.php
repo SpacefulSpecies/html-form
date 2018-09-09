@@ -103,7 +103,9 @@ final class FormFactory
         $dateFields = ['date', 'datetime', 'week', 'month'];
         if (in_array($c->type, $dateFields, true)) {
             $c->date = null;
-            if (!empty($c->value) && !$c->value instanceof \DateTimeInterface) {
+            if ($c->value instanceof \DateTimeInterface) {
+                $c->date = $c->value;
+            } elseif (!empty($c->value)) {
                 try {
                     $c->date = new \DateTimeImmutable($c->value);
                 } catch (\Exception $e) {

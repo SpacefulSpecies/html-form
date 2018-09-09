@@ -23,16 +23,21 @@ final class Form implements HtmlForm
     /** @var callable */
     private $handler;
 
+    /** @var string */
+    private $method;
+
 
 
     /**
      * @param NodeCollection $fields
      * @param callable       $handler callable(array $values, array $context): void
+     * @param string         $method  = 'post'
      */
-    public function __construct(NodeCollection $fields, callable $handler)
+    public function __construct(NodeCollection $fields, callable $handler, string $method = 'post')
     {
         $this->fields = $fields;
         $this->handler = $handler;
+        $this->method = strtolower($method) === self::GET ? self::GET : self::POST;
     }
 
 
@@ -41,6 +46,12 @@ final class Form implements HtmlForm
     public function getFields(): NodeCollection
     {
         return $this->fields;
+    }
+
+    /** @inheritdoc */
+    public function getMethod(): string
+    {
+        return $this->method;
     }
 
 

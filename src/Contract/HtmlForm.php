@@ -11,11 +11,20 @@ use Species\HtmlForm\Contract\Value\ArrayValue;
 interface HtmlForm extends ArrayValue
 {
 
+    const POST = 'post';
+    const GET = 'get';
+
+
+
     /**
      * @return NodeCollection
      */
     public function getFields(): NodeCollection;
 
+    /**
+     * @return string
+     */
+    public function getMethod(): string;
 
     /**
      * @param array $values

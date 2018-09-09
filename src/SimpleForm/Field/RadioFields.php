@@ -6,7 +6,7 @@ use Species\HtmlForm\Contract\Exception\HtmlInvalidFieldName;
 use Species\HtmlForm\Contract\Exception\HtmlInvalidFieldValue;
 use Species\HtmlForm\Contract\Field\HtmlRadioField;
 use Species\HtmlForm\Contract\Field\HtmlRadioFields;
-use Species\HtmlForm\Form\SimpleParentNode;
+use Species\HtmlForm\SimpleForm\Abstraction\SimpleParentNode;
 use Species\HtmlForm\SimpleForm\Abstraction\ValueWithOptionsTrait;
 use Species\HtmlForm\SimpleForm\Exception\FieldIsRequired;
 use Species\HtmlForm\SimpleForm\Exception\InvalidValue;

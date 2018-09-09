@@ -5,8 +5,8 @@ namespace Species\HtmlForm\SimpleForm;
 use Species\HtmlForm\Contract\Exception\HtmlInvalidFieldName;
 use Species\HtmlForm\Contract\HtmlFieldSet;
 use Species\HtmlForm\Contract\Node\Node;
-use Species\HtmlForm\Form\SimpleParentNode;
 use Species\HtmlForm\SimpleForm\Abstraction\DelegateValueTrait;
+use Species\HtmlForm\SimpleForm\Abstraction\SimpleParentNode;
 
 /**
  * Field set.

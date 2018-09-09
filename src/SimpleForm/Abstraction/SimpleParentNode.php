@@ -1,12 +1,10 @@
 <?php
 
-namespace Species\HtmlForm\Form;
+namespace Species\HtmlForm\SimpleForm\Abstraction;
 
 use Species\HtmlForm\Contract\Exception\HtmlInvalidFieldName;
 use Species\HtmlForm\Contract\Node\Node;
 use Species\HtmlForm\Contract\Node\ParentNode;
-use Species\HtmlForm\SimpleForm\Abstraction\NodeArrayTrait;
-use Species\HtmlForm\SimpleForm\Abstraction\SimpleNode;
 
 /**
  * Abstract simple parent node.

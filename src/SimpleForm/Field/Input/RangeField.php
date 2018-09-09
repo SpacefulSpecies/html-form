@@ -4,7 +4,7 @@ namespace Species\HtmlForm\SimpleForm\Field\Input;
 
 use Species\HtmlForm\Contract\Exception\HtmlInvalidFieldName;
 use Species\HtmlForm\Contract\Exception\HtmlInvalidFieldValue;
-use Species\HtmlForm\Contract\Field\HtmlInputField;
+use Species\HtmlForm\Contract\Field\HtmlNumberInputField;
 use Species\HtmlForm\SimpleForm\Abstraction\InputField;
 use Species\HtmlForm\SimpleForm\Abstraction\StringManipulation;
 use Species\HtmlForm\SimpleForm\Exception\InvalidNumberValue;
@@ -14,7 +14,7 @@ use Species\HtmlForm\SimpleForm\Exception\NumberValueOutOfStep;
 /**
  * Range field.
  */
-final class RangeField extends InputField implements HtmlInputField
+final class RangeField extends InputField implements HtmlNumberInputField
 {
 
     /** @var int */
@@ -51,19 +51,19 @@ final class RangeField extends InputField implements HtmlInputField
 
 
 
-    /** @return int */
+    /** @inheritdoc */
     public function getMin(): int
     {
         return $this->min;
     }
 
-    /** @return int */
+    /** @inheritdoc */
     public function getMax(): int
     {
         return $this->max;
     }
 
-    /** @return int */
+    /** @inheritdoc */
     public function getStep(): int
     {
         return $this->step;

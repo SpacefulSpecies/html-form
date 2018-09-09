@@ -14,6 +14,7 @@ use Species\HtmlForm\SimpleForm\Field\Input\EmailField;
 use Species\HtmlForm\SimpleForm\Field\Input\HiddenField;
 use Species\HtmlForm\SimpleForm\Field\Input\MonthField;
 use Species\HtmlForm\SimpleForm\Field\Input\NumberField;
+use Species\HtmlForm\SimpleForm\Field\Input\PhoneField;
 use Species\HtmlForm\SimpleForm\Field\Input\RangeField;
 use Species\HtmlForm\SimpleForm\Field\Input\SearchField;
 use Species\HtmlForm\SimpleForm\Field\Input\TextField;
@@ -149,6 +150,9 @@ final class FormFactory
 
             case 'color':
                 return new ColorField($name, $c->value, $c->required, $c->handler);
+            case 'tel':
+            case 'phone':
+                return new PhoneField($name, $c->value, $c->required, $c->handler);
             case 'email':
                 return new EmailField($name, $c->value, $c->required, $c->handler);
             case 'hidden':

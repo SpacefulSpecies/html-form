@@ -120,7 +120,7 @@ final class SelectMultipleField extends SimpleNode implements HtmlSelectMultiple
                 throw new FieldIsRequired();
             }
 
-            return ($this->handler)($this->values, $context);
+            return $this->handler ? ($this->handler)($this->values, $context) : $this->values;
 
         } catch (\Throwable $e) {
 

@@ -121,7 +121,7 @@ final class RadioFields extends SimpleParentNode implements HtmlRadioFields
                 throw new FieldIsRequired();
             }
 
-            return ($this->handler)($this->value, $context);
+            return $this->handler ? ($this->handler)($this->value, $context) : $this->value;
 
         } catch (\Throwable $e) {
 

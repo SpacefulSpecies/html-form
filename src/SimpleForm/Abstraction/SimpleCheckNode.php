@@ -29,7 +29,7 @@ abstract class SimpleCheckNode extends SimpleNode implements LeafNode, CheckedSt
     /** @var string|null */
     private $error;
 
-    /** @var callable */
+    /** @var callable|null */
     private $handler;
 
 
@@ -109,11 +109,13 @@ abstract class SimpleCheckNode extends SimpleNode implements LeafNode, CheckedSt
 
         try {
 
+            $value = $this->getValue();
+
             if ($this->required && !$this->checked) {
                 throw new FieldIsRequired();
             }
 
-            return ($this->handler)($this->getValue(), $context);
+            return $this->handler ? ($this->handler)($value, $context) : $value;
 
         } catch (\Throwable $e) {
 

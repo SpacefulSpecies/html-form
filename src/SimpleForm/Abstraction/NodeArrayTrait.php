@@ -61,18 +61,26 @@ trait NodeArrayTrait
     }
 
     /**
+     * @param mixed $offset
+     * @param mixed $value
      * @throws HtmlNodeCollectionReadOnly
      */
-    final public function offsetSet(): void
+    final public function offsetSet($offset, $value): void
     {
+        gettype($offset);
+        gettype($value);
+
         throw new NodeCollectionReadOnly();
     }
 
     /**
+     * @param mixed $offset
      * @throws HtmlNodeCollectionReadOnly
      */
-    final public function offsetUnset(): void
+    final public function offsetUnset($offset): void
     {
+        gettype($offset);
+
         throw new NodeCollectionReadOnly();
     }
 

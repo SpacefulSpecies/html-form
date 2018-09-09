@@ -121,7 +121,7 @@ trait DelegateValueTrait
             $this->error = null;
 
             foreach ($nodes as $offset => $node) {
-                if (isset($values[$offset])) {
+                if (!isset($values[$offset])) {
                     if ($node instanceof StringValue) {
                         $values[$offset] = '';
                     } elseif ($node instanceof ArrayValue) {

@@ -188,7 +188,7 @@ final class HtmlRenderer
         }
         $options = implode('', $options);
 
-        return sprintf("<select $attributes>$options</select>");
+        return "<select $attributes>$options</select>";
     }
 
     /**

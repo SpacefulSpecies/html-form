@@ -108,10 +108,10 @@ trait DelegateValueTrait
 
 
     /**
-     * @param NodeCollection    $nodes
-     * @param callable|null $handler
-     * @param array         $values
-     * @param array         $context = []
+     * @param NodeCollection $nodes
+     * @param callable|null  $handler
+     * @param array          $values
+     * @param array          $context = []
      * @return mixed
      * @throws HtmlInvalidFieldValue
      */

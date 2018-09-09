@@ -67,6 +67,10 @@ final class HtmlRenderer
             'required' => $node->isRequired(),
         ]);
 
+        if ($node->getType() === 'password') {
+            unset($attributes['value']);
+        }
+
         if ($node instanceof HtmlNumberInputField) {
             $attributes = array_replace([
                 'min' => $node->getMin(),

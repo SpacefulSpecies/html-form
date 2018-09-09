@@ -2,6 +2,7 @@
 
 namespace Species\HtmlForm\SimpleForm;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Species\HtmlForm\Contract\Exception\HtmlInvalidFieldValue;
 use Species\HtmlForm\Contract\HtmlForm;
 use Species\HtmlForm\Contract\Node\NodeCollection;
@@ -90,7 +91,11 @@ final class Form implements HtmlForm
 
 
 
-    /** @inheritdoc */
+    /**
+     * @param array $values
+     * @param array $context
+     * @return bool
+     */
     public function submit(array $values, array $context = []): bool
     {
         try {
@@ -100,6 +105,16 @@ final class Form implements HtmlForm
         }
 
         return true;
+    }
+
+    /** @inheritdoc */
+    public function submitRequest(ServerRequestInterface $request, array $context = []): bool
+    {
+        if (strtolower($request->getMethod()) !== $this->getMethod()) {
+            return false;
+        }
+
+        return $this->submit($request->getParsedBody(), $context);
     }
 
     /** @inheritdoc */

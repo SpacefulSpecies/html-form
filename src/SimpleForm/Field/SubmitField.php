@@ -21,7 +21,7 @@ final class SubmitField extends SimpleCheckNode implements HtmlSubmitField
     public function __construct(string $name, string $value, ?callable $handler)
     {
         if ($value === '') {
-            $value = 'Submit Query';
+            $value = $name;
         }
 
         parent::__construct($name, false, $value, false, function (string $value, array $context) use ($handler) {

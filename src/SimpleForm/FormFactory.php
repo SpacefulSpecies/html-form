@@ -98,18 +98,28 @@ final class FormFactory
             'step' => $config['$step'] ?? null,
             'multiple' => $config['$multiple'] ?? false,
         ];
+        $value = $c->value;
 
         // create date value for date fields.
         $dateFields = ['date', 'datetime', 'week', 'month'];
         if (in_array($c->type, $dateFields, true)) {
             $c->date = null;
-            if ($c->value instanceof \DateTimeInterface) {
-                $c->date = $c->value;
+            if ($value instanceof \DateTimeInterface) {
+                $c->date = $value;
             } elseif (!empty($c->value)) {
                 try {
                     $c->date = new \DateTimeImmutable($c->value);
                 } catch (\Exception $e) {
                 }
+            }
+        }
+
+        // create number value for date fields.
+        $numberFields = ['number', 'range'];
+        if (in_array($c->type, $numberFields, true)) {
+            $c->value = null;
+            if ($value !== null && $value !== '') {
+                $c->value = (int)"$value";
             }
         }
 

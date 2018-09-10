@@ -40,7 +40,7 @@ final class RangeField extends InputField implements HtmlNumberInputField
      */
     public function __construct(string $name, ?int $value, ?callable $handler, int $min, int $max, int $step = 1)
     {
-        $value = (string)$this->validateFieldValue($value);
+        $value = (string)$this->validateFieldValue((string)$value ?? '');
 
         parent::__construct('range', $name, $value, true, $handler);
 

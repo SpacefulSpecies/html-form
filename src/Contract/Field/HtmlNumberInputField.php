@@ -9,15 +9,6 @@ interface HtmlNumberInputField extends HtmlInputField
 {
 
     /**
-     * @const TYPES
-     */
-    const TYPES = [
-        'number', 'range',
-    ];
-
-
-
-    /**
      * @return int|null
      */
     public function getMin(): ?int;

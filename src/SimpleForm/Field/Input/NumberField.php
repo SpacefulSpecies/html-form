@@ -49,7 +49,7 @@ final class NumberField extends InputField implements HtmlNumberInputField
         ?int $step = null
     )
     {
-        $value = (string)$this->validateFieldValue($value);
+        $value = (string)$this->validateFieldValue((string)$value ?? '');
 
         parent::__construct('number', $name, $value, $required, $handler);
 

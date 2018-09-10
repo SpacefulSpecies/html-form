@@ -111,11 +111,11 @@ final class HtmlRenderer
     {
         $button = $attributes['button'] ?? false;
 
-        $attributes = array_replace($attributes, [
+        $attributes = $this->attributesToHtml(array_replace($attributes, [
             'type' => 'submit',
             'name' => $node->getName(),
             'value' => $node->getCheckedValue(),
-        ]);
+        ]));
 
         if (!$button) {
             return "<input $attributes>";
@@ -179,10 +179,17 @@ final class HtmlRenderer
         ]));
 
         $options = [];
+
+        if (!in_array('', $node->getOptions(), true)) {
+            if (!$node->isRequired() || $node->getValue() === '') {
+                $options[] = '<option></option>';
+            }
+        }
+
         foreach ($node->getOptions() as $index => $option) {
             $optionAttributes = $this->attributesToHtml([
                 'value' => $option,
-                'checked' => ($node->getValue() === $option),
+                'selected' => ($node->getValue() === $option),
             ]);
             $options[] = "<option $optionAttributes>" . $this->stringToHtml($labels[$index] ?? $option) . '</option>';
         }

@@ -12,7 +12,8 @@
 
     "require": {
         "psr/http-message": "^1.0",
+        "myclabs/deep-copy": "^1.8",
 
-        "php": "^7.1"
+        "php": "^7.2"
     }
 }

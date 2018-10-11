@@ -21,8 +21,9 @@ class InvalidValue extends \DomainException implements HtmlInvalidFieldValue
         }
 
         $message = $reason->getMessage() ?: self::getShortName($reason);
+        $code = is_int($reason->getCode()) ? $reason->getCode() : 0;
 
-        return new self($message, $reason->getCode(), $reason);
+        return new self($message, $code, $reason);
     }
 
 

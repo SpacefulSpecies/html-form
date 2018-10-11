@@ -218,7 +218,7 @@ final class HtmlRenderer
         foreach ($node->getOptions() as $index => $option) {
             $optionAttributes = $this->attributesToHtml([
                 'value' => $option,
-                'checked' => in_array($option, $node->getValues()),
+                'selected' => in_array($option, $node->getValues()),
             ]);
             $label = $this->stringToHtml($labels[$index] ?? $option);
             $options[] = "<option $optionAttributes>$label</option>";

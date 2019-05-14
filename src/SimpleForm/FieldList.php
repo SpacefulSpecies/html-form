@@ -3,6 +3,7 @@
 namespace Species\HtmlForm\SimpleForm;
 
 use Species\HtmlForm\Contract\Exception\HtmlInvalidFieldName;
+use Species\HtmlForm\Contract\Exception\HtmlInvalidFieldValue;
 use Species\HtmlForm\Contract\HtmlFieldList;
 use Species\HtmlForm\Contract\Node\Node;
 use Species\HtmlForm\SimpleForm\Abstraction\DelegateValueTrait;
@@ -124,12 +125,13 @@ final class FieldList extends SimpleParentNode implements HtmlFieldList
         return $this->submitTo($this, $this->handler, $values, $context);
     }
 
-    /** @inheritdoc */
+    /**
+     * @inheritdoc
+     * @throws HtmlInvalidFieldValue
+     */
     public function reset(): void
     {
-        $this->resetListWithLength(count($this->defaults));
-
-        $this->resetOn($this);
+        $this->submit($this->defaults);
     }
 
 

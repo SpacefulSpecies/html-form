@@ -106,7 +106,15 @@ abstract class SimpleNode implements Node
         }
 
         if ($this->parent instanceof HtmlFieldList) {
-            return $this->parent->getName() . '[]';
+            $index = null;
+            foreach ($this->parent as $i => $node) {
+                if ($node === $this) {
+                    $index = $i;
+                    break;
+                }
+            }
+
+            return sprintf('%s[%s]', $this->parent->getName(), $index ?? $this->parent->count());
         }
 
         if ($this->parent instanceof HtmlRadioFields) {

@@ -107,6 +107,17 @@ final class FieldList extends SimpleParentNode implements HtmlFieldList
     /** @inheritdoc */
     public function submit(array $values, array $context = [])
     {
+        $recursiveFilterArray = function (array $array) use (&$recursiveFilterArray) {
+            foreach ($array as &$value) {
+                if (is_array($value)) {
+                    $value = $recursiveFilterArray($value);
+                }
+            }
+
+            return array_filter($array);
+        };
+
+        $values = $recursiveFilterArray($values);
         $length = count($values);
         $this->resetListWithLength($length);
 

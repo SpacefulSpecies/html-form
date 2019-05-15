@@ -119,7 +119,7 @@ final class FormFactory
         if (in_array($c->type, $numberFields, true)) {
             $c->value = null;
             if ($value !== null && $value !== '') {
-                $c->value = (int)"$value";
+                $c->value = (float)"$value";
             }
         }
 

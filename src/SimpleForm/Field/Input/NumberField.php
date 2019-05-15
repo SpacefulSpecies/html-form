@@ -17,36 +17,36 @@ use Species\HtmlForm\SimpleForm\Exception\NumberValueOutOfStep;
 final class NumberField extends InputField implements HtmlNumberInputField
 {
 
-    /** @var int|null */
+    /** @var float|null */
     private $min;
 
-    /** @var int|null */
+    /** @var float|null */
     private $max;
 
-    /** @var int|null */
+    /** @var float|null */
     private $step;
 
 
 
     /**
      * @param string        $name
-     * @param int|null      $value
+     * @param float|null      $value
      * @param bool          $required
-     * @param callable|null $handler callable(?int $value, array $context): mixed
-     * @param int|null      $min     = null
-     * @param int|null      $max     = null
-     * @param int|null      $step    = null
+     * @param callable|null $handler callable(?float $value, array $context): mixed
+     * @param float|null      $min     = null
+     * @param float|null      $max     = null
+     * @param float|null      $step    = null
      * @throws HtmlInvalidFieldName
      * @throws HtmlInvalidFieldValue
      */
     public function __construct(
         string $name,
-        ?int $value,
+        ?float $value,
         bool $required,
         ?callable $handler,
-        ?int $min = null,
-        ?int $max = null,
-        ?int $step = null
+        ?float $min = null,
+        ?float $max = null,
+        ?float $step = null
     )
     {
         $value = (string)$this->validateFieldValue((string)$value ?? '');
@@ -61,19 +61,19 @@ final class NumberField extends InputField implements HtmlNumberInputField
 
 
     /** @inheritdoc */
-    public function getMin(): ?int
+    public function getMin(): ?float
     {
         return $this->min;
     }
 
     /** @inheritdoc */
-    public function getMax(): ?int
+    public function getMax(): ?float
     {
         return $this->max;
     }
 
     /** @inheritdoc */
-    public function getStep(): ?int
+    public function getStep(): ?float
     {
         return $this->step;
     }
@@ -82,10 +82,10 @@ final class NumberField extends InputField implements HtmlNumberInputField
 
     /**
      * @param string $value
-     * @return int|null
+     * @return float|null
      * @throws HtmlInvalidFieldValue
      */
-    protected function validateFieldValue(string $value): ?int
+    protected function validateFieldValue(string $value): ?float
     {
         $value = StringManipulation::trim($value);
 
@@ -97,7 +97,7 @@ final class NumberField extends InputField implements HtmlNumberInputField
             throw new InvalidNumberValue();
         }
 
-        $value = (int)$value;
+        $value = (float)$value;
 
         if ($this->min !== null && $value < $this->min) {
             throw new NumberValueOutOfRange();

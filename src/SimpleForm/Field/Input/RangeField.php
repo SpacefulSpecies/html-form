@@ -17,28 +17,28 @@ use Species\HtmlForm\SimpleForm\Exception\NumberValueOutOfStep;
 final class RangeField extends InputField implements HtmlNumberInputField
 {
 
-    /** @var int */
+    /** @var float */
     private $min;
 
-    /** @var int */
+    /** @var float */
     private $max;
 
-    /** @var int */
+    /** @var float */
     private $step;
 
 
 
     /**
      * @param string        $name
-     * @param int|null      $value
-     * @param callable|null $handler callable(int $value, array $context): mixed
-     * @param int           $min
-     * @param int           $max
-     * @param int           $step    = 1
+     * @param float|null      $value
+     * @param callable|null $handler callable(float $value, array $context): mixed
+     * @param float           $min
+     * @param float           $max
+     * @param float           $step    = 1
      * @throws HtmlInvalidFieldName
      * @throws HtmlInvalidFieldValue
      */
-    public function __construct(string $name, ?int $value, ?callable $handler, int $min, int $max, int $step = 1)
+    public function __construct(string $name, ?float $value, ?callable $handler, float $min, float $max, float $step = 1)
     {
         $value = (string)$this->validateFieldValue((string)$value ?? '');
 
@@ -52,19 +52,19 @@ final class RangeField extends InputField implements HtmlNumberInputField
 
 
     /** @inheritdoc */
-    public function getMin(): int
+    public function getMin(): float
     {
         return $this->min;
     }
 
     /** @inheritdoc */
-    public function getMax(): int
+    public function getMax(): float
     {
         return $this->max;
     }
 
     /** @inheritdoc */
-    public function getStep(): int
+    public function getStep(): float
     {
         return $this->step;
     }
@@ -73,10 +73,10 @@ final class RangeField extends InputField implements HtmlNumberInputField
 
     /**
      * @param string $value
-     * @return int|null
+     * @return float|null
      * @throws HtmlInvalidFieldValue
      */
-    protected function validateFieldValue(string $value): ?int
+    protected function validateFieldValue(string $value): ?float
     {
         $value = StringManipulation::trim($value);
 
@@ -88,7 +88,7 @@ final class RangeField extends InputField implements HtmlNumberInputField
             throw new InvalidNumberValue();
         }
 
-        $value = (int)$value;
+        $value = (float)$value;
 
         if ($value < $this->min || $value > $this->max) {
             throw new NumberValueOutOfRange();

@@ -9,18 +9,18 @@ interface HtmlNumberInputField extends HtmlInputField
 {
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getMin(): ?int;
+    public function getMin(): ?float;
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getMax(): ?int;
+    public function getMax(): ?float;
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getStep(): ?int;
+    public function getStep(): ?float;
 
 }
